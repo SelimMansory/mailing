@@ -1,0 +1,49 @@
+{% extends 'mail/base.html'%}
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4 text-dark">Письма</h1>
+</div>
+
+<div class="container">
+    <div class="row text-start">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Клиент</th>
+                <th scope="col">Тема</th>
+                <th scope="col">Текст</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for object in object_list %}
+            <tr>
+                <th scope="row">{{object.setting.client.email}}</th>
+                <td>{{ object.subject}}</td>
+                <td> {{object.text}}</td>
+                                <td>                        <div class="btn-group">
+                                    <a href="{% url 'mail:edit_mail' object.pk %}"
+                       class="btn btn-sm btn-outline-dark">Редактировать</a>
+                                <a href="{% url 'mail:delete_mail' object.pk %}"
+                       class="btn btn-sm btn-outline-dark">Удалить</a>
+                                </div></td>
+            </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <div class="btn-group">
+        <a href="{% url 'mail:create_mail' %}"
+              class="btn btn-lg btn-block btn-outline-dark">Добавить письмо</a>
+        {% if user.is_superuser %}
+            <a href="{% url 'mail:list_log' %}"
+           class="btn btn-lg btn-block btn-outline-dark">Логи</a>
+        {% endif %}
+    </div>
+</div>
+
+
+{% endblock %}

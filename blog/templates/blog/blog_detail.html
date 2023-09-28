@@ -1,0 +1,36 @@
+{% extends 'mail/base.html'%}
+{% load my_tags %}
+{% block content %}
+<div class="container" align="center">
+    <div class="col-8">
+        <div class="row">
+            <div class="card mb-4 box-shadow center">
+                <div class="card-head">
+                    {% if object.image %}
+                    <img src="{% mediapath %}{{object.image}}" class="card-img-top">
+                    {% else %}
+                    <img src="{% mediapath %}plug.png" class="card-img-top">
+                    {% endif %}
+                    <h1 class="my-0 font-weight-normal card-title" align="center">{{ object.title }}</h1>
+                </div>
+                <div class="card-body">
+                    <h6>{{object.content}}</h6>
+                    <p></p>
+                    <div class="container m-3">
+                        <p style="display:inline;">
+                            <span>Количество просмотров: {{object.count_view}}</span>
+                            <span style="margin-left:230px">Дата создания: {{object.publication}}</span>
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+            {% if user.is_superuser or user.is_staff %}
+            <a href="{% url 'blog:edit' object.pk %}"
+               class="btn btn-sm btn-outline-dark">Редактировать</a>
+            {% else %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

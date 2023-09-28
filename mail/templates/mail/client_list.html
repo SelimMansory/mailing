@@ -1,0 +1,58 @@
+{% extends 'mail/base.html'%}
+{% block content %}
+{% if user.is_authenticated %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4 text-dark">Клиенты</h1>
+</div>
+
+<div class="container">
+    <div class="row text-start">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">ФИО</th>
+                <th scope="col">Email</th>
+                <th scope="col">Комментарий</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for object in object_list %}
+            {% if user == object.owner or user.is_superuser or user.is_staff %}
+            <tr>
+                <th scope="row">{{object.full_name}}</th>
+                <td>{{ object.email}}</td>
+                <td> {{object.comment | truncatechars:20}}</td>
+                <td>
+                    <div class="btn-group">
+                        <a href="{% url 'mail:edit_client' object.pk %}"
+                           class="btn btn-sm btn-outline-dark">Редактировать</a>
+                        <a href="{% url 'mail:delete_client' object.pk %}"
+                           class="btn btn-sm btn-outline-dark">Удалить</a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+            {% endif %}
+            {% endfor %}
+        </table>
+    </div>
+</div>
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <div class="btn-group">
+        <a href="{% url 'mail:create_client' %}"
+           class="btn btn-lg btn-block btn-outline-dark">Добавить клиента</a>
+        <a href="{% url 'mail:list_setting' %}"
+           class="btn btn-lg btn-block btn-outline-dark">Настройки писем</a>
+    </div>
+</div>
+{% else %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4 text-dark">Авторизуйтесь для просмотра</h1>
+        <a href="{% url 'users:login' %}"
+       class="btn btn-lg m-5 btn-outline-dark">Войти</a>
+</div>
+
+{% endif %}
+
+{% endblock %}

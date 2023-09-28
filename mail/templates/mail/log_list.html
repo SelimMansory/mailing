@@ -1,0 +1,33 @@
+{% extends 'mail/base.html'%}
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4 text-dark">Логи</h1>
+</div>
+
+<div class="container">
+    <div class="row text-start">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Почта</th>
+                <th scope="col">Дата последний попытки</th>
+                <th scope="col">Статус</th>
+                <th scope="col">Ответ</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for object in object_list %}
+            <tr>
+                <th scope="row">{{object.mail.setting.client.email}}</th>
+                <td>{{ object.date_last_try}}</td>
+                <td> {{object.status_try}}</td>
+                <td> {{object.answer}}</td>
+
+            </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock %}

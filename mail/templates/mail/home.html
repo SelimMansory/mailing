@@ -1,0 +1,43 @@
+{% extends 'mail/base.html'%}
+{% load my_tags %}
+{% block content %}
+
+{% for blog in blog_list %}
+<div class="container" align="center">
+    <div class="col-6">
+        <div class="row">
+            <p></p>
+            <div class="card mb-4 box-shadow center">
+                <div class="card-head">
+                    {% if blog.image %}
+                    <img src="{% mediapath %}{{blog.image}}" class="card-img-top">
+                    {% else %}
+                    <img src="{% mediapath %}plug.png" class="card-img-top">
+                    {% endif %}
+                    <h1 class="my-0 font-weight-normal card-title" align="center">{{ blog.title }}</h1>
+                </div>
+                <div class="card-body">
+                    {% if blog.content|length < 101 %}
+                    <h6>{{blog.content}}</h6>
+                    {% else %}
+                    <h6>{{blog.content|truncatechars:100}}<a href="{% url 'blog:detail_blog' blog.id%}"
+                                                             class="link-underline-primary">Продолжить</a></h6>
+                    {% endif %}
+                    <p class="text" align="right">Дата создания: {{ blog.publication}} </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+<div class="container" align="center">
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h2 class="display-2 text-dark">Статистика</h2>
+    </div>
+    <h3><p>Количество уникальных клиентов: {{count_client}}</p>
+        <p>Общие число рассылок: {{count_mailing}}</p>
+        <p>Количество активных рассылок: {{count_active}}</p></h3>
+
+</div>
+{% endblock %}

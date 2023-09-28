@@ -1,0 +1,55 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Сервис рассылок</title>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+<div class="d-flex flex-column flex-md-row align-i tems-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+    <a class="p-2 btn btn-outline-dark" href="{% url 'mail:home' %}">Сервис рассылок</a>
+    <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+        {% if user.is_authenticated %}
+        <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="{% url 'users:profile' %}">Профиль</a>
+        <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="{% url 'users:logout' %}">Выйти</a>
+        {% else %}
+        <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="{% url 'users:login' %}">Войти</a>
+        <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="{% url 'users:register' %}">Регистрация</a>
+        {% endif %}
+    </nav>
+</div>
+{% block content %}
+{% endblock %}
+<div class="container">
+    <div class="row text-start">
+
+        <footer class="pt-3 my-md-5 md-5 border-top">
+            <div>
+                <div class="row text-start">
+                    <div class="col-12 col-md">
+                        Сервис рассылок
+                        <small class="d-block mb-3 text-muted">&copy; {% now 'Y' %}</small>
+                    </div>
+                    <div class="col-6 col-md">
+                        <h5>Категории</h5>
+                        <ul class="list-unstyled text-small">
+                            <li><a class="text-muted" href="{% url 'mail:client' %}">Клиенты</a></li>
+                            <li><a class="text-muted" href="{% url 'mail:list_setting' %}">Рассылки</a></li>
+                            <li><a class="text-muted" href="{% url 'mail:list_mail' %}">Сообщение для рассылки</a></li>
+                            {% if user.is_superuser %}
+                            <li><a class="text-muted" href="{% url 'mail:list_log' %}">Логи</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>
